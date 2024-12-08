@@ -1,0 +1,298 @@
+<!DOCTYPE HTML>
+<html class="colores">
+<head>
+	<meta charset="utf-8"> 
+	<title>Distribucion Agua</title>
+	<script lang="JavaScript"> 
+		let capacidadCisterna = 8000, capacidadTinaco = 1000;
+		var aguaCalle = 0, aguaCisterna = 0, aguaTinaco = 0, aguaLlave = 0;
+		var estado;
+
+		var calle = formulario.calle.value;
+		var tinaco = formulario.tinaco.value;
+		var llave = formulario.llave.value;
+		var cisterna = formulario.cisterna.value;
+
+		function cambiarEstado() {
+			calle = formulario.calle.value;
+			cisterna = formulario.cisterna.value;
+			tinaco = formulario.tinaco.value;
+			llave = formulario.llave.value;
+
+			if (calle === "cerrada" && cisterna === "vacia" && tinaco === "vacio" && llave === "cerrada") {
+				estado = "Estado Inicial";
+			}
+			if (calle === "cerrada" && cisterna === "vacia" && tinaco === "vacio" && llave === "abierta") {
+				estado = "No hay agua";
+			}
+			if (calle === "cerrada" && cisterna === "vacia" && tinaco === "lleno" && llave === "cerrada") {
+				estado = "Hay agua del tinaco";
+			}
+			if (calle === "cerrada" && cisterna === "vacia" && tinaco === "lleno" && llave === "abierta") {
+				estado = "Sale agua suministrada del tinaco";
+			}
+			if (calle === "cerrada" && cisterna === "llena" && tinaco === "vacio" && llave === "cerrada") {
+				estado = "Llena el tinaco de la cisterna";
+			}
+			if (calle === "cerrada" && cisterna === "llena" && tinaco === "vacio" && llave === "abierta") {
+				estado = "Sale agua suministrada de la cisterna";
+			}
+			if (calle === "cerrada" && cisterna === "llena" && tinaco === "lleno" && llave === "cerrada") {
+				estado = "Hay agua del tinaco";
+			}
+			if (calle === "cerrada" && cisterna === "llena" && tinaco === "lleno" && llave === "abierta") {
+				estado = "Sale agua suministrada del tinaco";
+			}
+			if (calle === "abierta" && cisterna === "vacia" && tinaco === "vacio" && llave === "cerrada") {
+				estado = "Llena el tinaco";
+			}
+			if (calle === "abierta" && cisterna === "vacia" && tinaco === "vacio" && llave === "abierta") {
+				estado = "Sale agua suministrada de la calle";
+			}
+			if (calle === "abierta" && cisterna === "vacia" && tinaco === "lleno" && llave === "cerrada") {
+				estado = "Llena la cisterna";
+			}
+			if (calle === "abierta" && cisterna === "vacia" && tinaco === "lleno" && llave === "abierta") {
+				estado = "Sale agua suministrada de la calle";
+			}
+			if (calle === "abierta" && cisterna === "llena" && tinaco === "vacio" && llave === "cerrada") {
+				estado = "Llena tinaco de la calle";
+			}
+			if (calle === "abierta" && cisterna === "llena" && tinaco === "vacio" && llave === "abierta") {
+				estado = "Sale agua suministrada de la calle";
+			}
+			if (calle === "abierta" && cisterna === "llena" && tinaco === "lleno" && llave === "cerrada") {
+				estado = "Hay agua de la calle";
+			}
+			if (calle === "abierta" && cisterna === "llena" && tinaco === "lleno" && llave === "abierta") {
+				estado = "Sale agua suministrada de la calle";
+			}
+			estatus.value = estado;
+		}
+
+		function actualizarAgua() {
+			calle = formulario.calle.value;
+			cisterna = formulario.cisterna.value;
+			tinaco = formulario.tinaco.value;
+			llave = formulario.llave.value;
+
+			if (estado === "Sale agua suministrada del tinaco") {
+				if(aguaTinaco > 0){
+					aguaTinaco--;
+					aguaLlave++;
+					contador_tinaco.innerHTML = `${aguaTinaco} L`;
+					contador_llave.innerHTML = `${aguaLlave} L`;
+				}
+			}
+
+			if (estado === "Llena el tinaco de la cisterna") {
+				if(aguaCisterna > 0 && aguaTinaco < 1000){
+					aguaCisterna--;
+					aguaTinaco++;
+					contador_cisterna.innerHTML = `${aguaCisterna} L`;
+					contador_tinaco.innerHTML = `${aguaTinaco} L`;
+				}
+			}
+
+			if (estado === "Sale agua suministrada de la cisterna") {
+				if(aguaCisterna > 0){
+					aguaCisterna--;
+					aguaLlave++;
+					contador_cisterna.innerHTML = `${aguaCisterna} L`;
+					contador_llave.innerHTML = `${aguaLlave} L`;
+				}
+			}
+
+			if (estado === "Llena el tinaco") {
+				if(aguaTinaco < 1000){
+					aguaCalle++;
+					aguaTinaco++;
+					contador_calle.innerHTML = `${aguaCalle} L`;
+					contador_tinaco.innerHTML = `${aguaTinaco} L`;
+				}
+			}
+
+			if (estado === "Sale agua suministrada de la calle") {
+				aguaCalle++;
+				aguaLlave++;
+				contador_calle.innerHTML = `${aguaCalle} L`;
+				contador_llave.innerHTML = `${aguaLlave} L`;
+			}
+
+			if (estado === "Llena la cisterna") {
+				if(aguaCisterna < 8000){
+					aguaCisterna++;
+					aguaCalle++;
+					contador_cisterna.innerHTML = `${aguaCisterna} L`;
+					contador_calle.innerHTML = `${aguaCalle} L`;
+				}
+			}
+
+			if (estado === "Llena tinaco de la calle") {
+				if(aguaTinaco < 1000){
+					aguaTinaco++;
+					aguaCalle++;
+					contador_tinaco.innerHTML = `${aguaTinaco} L`;
+					contador_calle.innerHTML = `${aguaCalle} L`;
+				}
+			}
+		}
+		
+		function comprobar() {
+			cambiarEstado();
+			
+			if (estado === "Estado Inicial") {
+				console.log("Estado inicial: Todo cerrado y vacío.");
+			} 
+			else if (estado === "No hay agua") {
+				console.log("No hay agua disponible.");
+				setInterval(actualizarAgua, 10);
+			} 
+			else if (estado === "Hay agua del tinaco") {
+				console.log("El tinaco está lleno, pero la llave está cerrada.");
+				setInterval(actualizarAgua, 10);
+			} 
+			else if (estado === "Sale agua suministrada del tinaco") {
+				console.log("El tinaco está lleno y la llave abierta.");
+			} 
+			else if (estado === "Llena el tinaco de la cisterna") {
+				console.log("El agua de la cisterna está llenando el tinaco.");
+				setInterval(actualizarAgua, 10)
+			} 
+			else if (estado === "Sale agua suministrada de la cisterna") {
+				console.log("El agua de la cisterna está saliendo por la llave.");
+				setInterval(actualizarAgua, 10);
+			} 
+			else if (estado === "Llena el tinaco") {
+				console.log("El agua de la calle está llenando el tinaco.");
+				setInterval(actualizarAgua, 10);
+			} 
+			else if (estado === "Sale agua suministrada de la calle") {
+				console.log("El agua de la calle está fluyendo por la llave.");
+				setInterval(actualizarAgua, 10);
+			} 
+			else if (estado === "Llena la cisterna") {
+				console.log("El agua de la calle está llenando la cisterna.");
+				setInterval(actualizarAgua, 10);
+			} 
+			else if (estado === "Llena tinaco de la calle") {
+				console.log("El agua de la calle está llenando el tinaco y la cisterna está llena.");
+				setInterval(actualizarAgua, 10);
+			} 
+			else if (estado === "Hay agua de la calle") {
+				console.log("Hay agua de la calle disponible, pero la llave está cerrada.");
+				setInterval(actualizarAgua, 10);
+			} 
+			else {
+				console.log("Estado no reconocido.");
+			}
+
+			if (cisterna === "llena") {
+				contador_cisterna.innerHTML = `8000 L`;
+				aguaCisterna = 8000;
+			}
+
+			if (cisterna === "vacia") {
+				contador_cisterna.innerHTML = `0 L`;
+				aguaCisterna = 0;
+			}
+
+			if (tinaco === "lleno") {
+				contador_tinaco.innerHTML = `1000 L`;
+				aguaTinaco = 1000;
+			}
+
+			if (tinaco === "vacio") {
+				contador_tinaco.innerHTML = `0 L`;
+				aguaTinaco = 0;
+			}
+		}
+
+	</script>
+	<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+	<header class="header">
+		<img src="header.jpg" alt="">
+	</header>
+	<nav class="nav"></nav>
+	<section class="section"> 
+		<h1 class="titulo"> Distribución del Agua</h1>
+		
+		<fieldset class="fieldset principal">
+			<legend>Valvulas de Agua</legend>
+			<form name="formulario" id="controlador">
+				<div>
+					<h4>Calle:</h4>
+					<input type="radio" name="calle" id="calleCerrada" value="cerrada" onchange="comprobar();" checked/>
+					<label for="calleCerrada">Cerrada</label>
+					<input type="radio" name="calle" id="calleAbierta" value="abierta" onchange="comprobar();" />
+					<label for="calleAbierta">Abierta</label>
+				</div>
+				<div>
+					<h4 for="cisterna">Cisterna: </h4>
+					<input type="radio" name="cisterna" id="cisternaVacia" value="vacia" onchange="comprobar();" checked/>
+					<label for="cisternaVacia">Vacia</label>
+					<input type="radio" name="cisterna" id="cisternaLlena" value="llena" onchange="comprobar();" />
+					<label for="cisternaLlena">Llena</label>	
+				</div>
+				<div>
+					<h4>Tinaco:</h4>
+					<input type="radio" name="tinaco" id="tinacoVacio" value="vacio" onchange="comprobar();" checked/>
+					<label for="tinacoVacio">Vacio</label>
+					<input type="radio" name="tinaco" id="tinacoLleno" value="lleno" onchange="comprobar();" />
+					<label for="tinacoLleno">Lleno</label>
+				</div>
+				
+				<div>
+					<h4>Llave:</h4>
+					<input type="radio" name="llave" id="llaveCerrada" value="cerrada" onchange="comprobar();" checked/>
+					<label for="llaveCerrada">Cerrada</label>
+					<input type="radio" name="llave" id="llaveAbierta" value="abierta" onchange="comprobar();" />
+					<label for="llaveAbierta">Abierta</label>
+				</div>
+			</form>
+		</fieldset>
+		
+		<fieldset class="fieldset estado">
+			<legend>Estatus</legend>
+			<input type="text" name="estatus" id="estatus" placeholder="Estado inicial" style="width: 300px;" readonly/>
+		</fieldset>
+		
+		<fieldset class="fieldset contador">
+			<legend>Calle</legend>
+			<div name="contador_calle" id="contador_calle">
+				0 L
+			</div>
+		</fieldset>
+		
+		<fieldset class="fieldset contador">
+			<legend>Cisterna</legend>
+			<div name="contador_cisterna" id="contador_cisterna">
+				0 L
+			</div>
+		</fieldset>
+		
+		<fieldset class="fieldset contador">
+			<legend>Tinaco</legend>
+			<div name="contador_tinaco" id="contador_tinaco">
+				0 L
+			</div>
+		</fieldset>
+		
+		<fieldset class="fieldset">
+			<legend>Llave</legend>
+			<div name="contador_llave" id="contador_llave">
+				0 L
+			</div>
+		</fieldset>
+		
+	</section>
+	<aside class="aside"> </aside>
+	<footer class="footer"> 
+		<p class="firma">
+            © 2024 Martínez Castañón José Antonio
+        </p>
+	</footer> 
+</body>
+</html>

@@ -1,0 +1,83 @@
+.colores {
+    --fondo: #9cf3ff;
+    --principal: #085f03;
+    --texto: #03683b;
+    --texto_claro: #a0ffd4;
+    --footer: #004223;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100dvh;
+    background-color: var(--fondo);
+}
+
+div, body, header, section, aside, nav, ul, footer {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    width: 100%;
+    height: 25dvh;
+}
+
+.header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.section {
+    margin: auto 12px;
+    width: 70%;
+}
+
+.titulo {
+    text-align: center;
+    font-size: 2rem;
+    margin: 16px;
+}
+
+.fieldset {
+    border: 2px solid var(--principal);
+    border-radius: 12px;
+    padding: 8px;
+    margin: 12px;
+}
+
+.fieldset legend {
+    color: var(--texto);
+    font-weight: 400;
+}
+
+
+#controlador div {
+    display: grid;
+    grid-template-columns: 100px auto 100px auto 100px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    width: 100%;
+    background-color: var(--footer);
+    color: var(--texto_claro);
+}
+
+.firma {
+    align-self: self-start;
+    margin: 0;
+}
