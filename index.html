@@ -18,7 +18,8 @@
 			cisterna = formulario.cisterna.value;
 			tinaco = formulario.tinaco.value;
 			llave = formulario.llave.value;
-
+		
+				
 			if (calle === "cerrada" && cisterna === "vacia" && tinaco === "vacio" && llave === "cerrada") {
 				estado = "Estado Inicial";
 			}
@@ -136,11 +137,25 @@
 					contador_calle.innerHTML = `${aguaCalle} L`;
 				}
 			}
+
+			if (aguaCisterna === 8000) {
+				const cisternaLlena = document.getElementById("cisternaLlena");
+				console.log("Cisterna llena uwu");
+				cisternaLlena.checked = true;
+				cambiarEstado();
+			}
+
+			if (aguaTinaco === 1000) {
+				const tinacoLleno = document.getElementById("tinacoLleno");
+				console.log("Tinaco lleno uwu");
+				tinacoLleno.checked = true;
+				cambiarEstado();
+			}
 		}
 		
 		function comprobar() {
 			cambiarEstado();
-			
+
 			if (estado === "Estado Inicial") {
 				console.log("Estado inicial: Todo cerrado y vacío.");
 			} 
